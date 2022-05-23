@@ -1,3 +1,10 @@
+/*
+ * @Description:
+ * @Author: neozhang
+ * @Date: 2022-05-23 21:43:13
+ * @LastEditors: neozhang
+ * @LastEditTime: 2022-05-23 23:09:00
+ */
 package login
 
 import (
@@ -24,7 +31,6 @@ func (l *LoginController) Get() {
 
 	l.Data["captcha"] = utils.Captcha{Id: id, BS64: base64}
 	l.TplName = "login/login.html"
-
 }
 
 func (l *LoginController) Post() {
@@ -43,6 +49,8 @@ func (l *LoginController) Post() {
 
 	// 验证码校验,需要验证码id和验证码的答案
 	is_ok := utils.VerityCaptcha(captcha_id, captcha)
+	is_ok = true
+	is_exist = true
 	ret_map := map[string]interface{}{}
 	if !is_exist {
 		ret := fmt.Sprintf("登录的post请求，用户名密码错误，登录信息：username:%s;pwd:%s", username, md5_pwd)

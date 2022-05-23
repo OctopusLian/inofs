@@ -1,4 +1,4 @@
-package controllers
+package auth
 
 import (
 	"inofs/models"
@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/astaxie/beego"
-	"github.com/beego/beego/orm"
+	"github.com/astaxie/beego/orm"
 )
 
 type AuthController struct {

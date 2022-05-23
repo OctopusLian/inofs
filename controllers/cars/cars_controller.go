@@ -1,14 +1,14 @@
-package controllers
+package cars
 
 import (
 	"fmt"
-	"inofs/utils"
 	"inofs/models"
+	"inofs/utils"
 	"math"
 
 	"github.com/astaxie/beego"
-	"github.com/beego/beego/logs"
-	"github.com/beego/beego/orm"
+	"github.com/astaxie/beego/logs"
+	"github.com/astaxie/beego/orm"
 )
 
 type CarsController struct {

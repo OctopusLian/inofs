@@ -2,104 +2,110 @@ package routers
 
 import (
 	"inofs/controllers"
+	"inofs/controllers/auth"
+	"inofs/controllers/caiwu"
+	"inofs/controllers/cars"
+	"inofs/controllers/echarts"
+	"inofs/controllers/login"
+	"inofs/controllers/news"
+	"inofs/controllers/user"
 
 	"github.com/astaxie/beego"
 )
 
 func init() {
-	// 不需要登录既可请求的url
-	beego.Router("/", &controllers.LoginController{})
-	beego.Router("/main/user/log_out", &controllers.LoginController{}, "get:LogOut")
-	beego.Router("/change_captcha", &controllers.LoginController{}, "get:ChangeCaptcha")
+	//未登录可请求
+	beego.Router("/login", &login.LoginController{})
+	beego.Router("/admin/log_out", &login.LoginController{}, "get:LogOut")
+	//修改验证码
+	beego.Router("/change_captcha", &login.LoginController{}, "get:ChangeCaptcha")
 
-	// 必须登录才可请求的url
+	//登录才能访问
+	//后端首页
+	beego.Router("/admin/index", &controllers.HomeController{})
+	beego.Router("/admin/index/notify", &controllers.HomeController{}, "get:NotifyList")
+	beego.Router("/admin/index/read_notify", &controllers.HomeController{}, "get:ReadNotify")
+	beego.Router("/admin/welcome", &controllers.HomeController{}, "get:Welcome")
+	//用户模块
+	beego.Router("/admin/user/list", &user.UserController{}, "get:List")
+	//用户添加页
+	beego.Router("/admin/user/to_add", &user.UserController{}, "get:ToAdd")
+	beego.Router("/admin/user/do_add", &user.UserController{}, "post:DoAdd")
+	//修改启用状态
+	beego.Router("/admin/user/is_active", &user.UserController{}, "post:IsActive")
+	//删除用户
+	beego.Router("/admin/user/delete", &user.UserController{}, "get:Delete")
+	//重置密码
+	beego.Router("/admin/user/reset_pwd", &user.UserController{}, "get:ResetPassword")
+	beego.Router("/admin/user/to_edit", &user.UserController{}, "get:ToUpdate")
+	//用户修改
+	beego.Router("/admin/user/do_update", &user.UserController{}, "post:DoUpdate")
+	//批量删除
+	beego.Router("/admin/user/muli_delete", &user.UserController{}, "post:MuliDelete")
+	//权限
+	beego.Router("/admin/auth/list", &auth.AuthController{}, "get:List")
+	beego.Router("/admin/auth/to_add", &auth.AuthController{}, "get:ToAdd")
+	beego.Router("/admin/auth/do_add", &auth.AuthController{}, "post:DoAdd")
+	//角色
+	beego.Router("/admin/role/list", &auth.RoleController{}, "get:List")
+	beego.Router("/admin/role/to_add", &auth.RoleController{}, "get:ToAdd")
+	beego.Router("/admin/role/do_add", &auth.RoleController{}, "post:DoAdd")
+	//用户角色
+	beego.Router("/admin/role/to_role_user", &auth.RoleController{}, "get:ToRoleUser")
+	beego.Router("/admin/role/do_role_user", &auth.RoleController{}, "post:DoRoleUser")
 
-	// 后台首页
-	beego.Router("/main/index", &controllers.HomeController{})
-	beego.Router("/main/index/notify", &controllers.HomeController{}, "get:NotifyList")
-	beego.Router("/main/index/read_notify", &controllers.HomeController{}, "get:ReadNotify")
-	beego.Router("/main/welcome", &controllers.HomeController{}, "get:Welcome")
+	//角色权限
+	beego.Router("/admin/role/to_role_auth", &auth.RoleController{}, "get:ToRoleAuth")
+	beego.Router("/admin/role/do_role_auth", &auth.RoleController{}, "post:DoRoleAuth")
+	beego.Router("/admin/role/get_auth_json", &auth.RoleController{}, "get:GetAuthJson")
+	//个人信息
+	beego.Router("/admin/user/my_center", &user.MyCenterController{})
+	beego.Router("/admin/user/salary_slip_list", &user.SalarySlipController{})
+	beego.Router("/admin/user/salary_slip_detail", &user.SalarySlipController{}, "get:Detail")
+	//财务
+	beego.Router("/admin/caiwu/salary_slip_list", &caiwu.CaiWuSalarySlipController{})
+	beego.Router("/admin/caiwu/to_salary_slip_import", &caiwu.CaiWuSalarySlipController{}, "get:ToImportExcel")
+	beego.Router("/admin/caiwu/do_salary_slip_import", &caiwu.CaiWuSalarySlipController{}, "post:DoImportExcel")
 
-	// user模块
-	beego.Router("/main/user/list", &controllers.UserController{}, "get:List")
-	beego.Router("/main/user/to_add", &controllers.UserController{}, "get:ToAdd")
-	beego.Router("/main/user/do_add", &controllers.UserController{}, "post:DoAdd")
-	beego.Router("/main/user/is_active", &controllers.UserController{}, "post:IsActive")
-	beego.Router("/main/user/delete", &controllers.UserController{}, "get:Delete")
-	beego.Router("/main/user/reset_pwd", &controllers.UserController{}, "get:ResetPassword")
-	beego.Router("/main/user/to_edit", &controllers.UserController{}, "get:ToUpdate")
-	beego.Router("/main/user/do_edit", &controllers.UserController{}, "post:DoUpdate")
-	beego.Router("/main/user/muli_delete", &controllers.UserController{}, "post:MuliDelete")
+	beego.Router("/admin/caiwu/echart_data_list", &caiwu.CaiWuEchartDataController{})
+	beego.Router("/admin/caiwu/to_echart_data_import", &caiwu.CaiWuEchartDataController{}, "get:ToImportExcel")
+	beego.Router("/admin/caiwu/do_echart_data_import", &caiwu.CaiWuEchartDataController{}, "post:DoImportExcel")
+	//内容管理CategoryController
+	beego.Router("/admin/news/category_list", &news.CategoryController{})
+	beego.Router("/admin/news/to_category", &news.CategoryController{}, "get:ToAdd")
+	beego.Router("/admin/news/do_category", &news.CategoryController{}, "post:DoAdd")
+	beego.Router("/admin/news/news_list", &news.NewsController{})
+	beego.Router("/admin/news/to_news", &news.NewsController{}, "get:ToAdd")
+	beego.Router("/admin/news/upload_img", &news.NewsController{}, "post:UploadImg")
+	beego.Router("/admin/news/do_news", &news.NewsController{}, "post:DoAdd")
+	beego.Router("/admin/news/to_edit", &news.NewsController{}, "get:ToEdit")
+	beego.Router("/admin/news/do_edit", &news.NewsController{}, "post:DoEdit")
+	//车辆管理
+	beego.Router("/admin/cars/cars_brand_list", &cars.CarBrandController{})
+	beego.Router("/admin/cars/to_cars_brand", &cars.CarBrandController{}, "get:ToAdd")
+	beego.Router("/admin/cars/do_cars_brand", &cars.CarBrandController{}, "post:DoAdd")
 
-	// auth模块
-	beego.Router("/main/auth/list", &controllers.AuthController{}, "get:List")
-	beego.Router("/main/auth/to_add", &controllers.AuthController{}, "get:ToAdd")
-	beego.Router("/main/auth/do_add", &controllers.AuthController{}, "post:DoAdd")
+	beego.Router("/admin/cars/cars_list", &cars.CarsController{})
+	beego.Router("/admin/cars/to_cars", &cars.CarsController{}, "get:ToAdd")
+	beego.Router("/admin/cars/do_cars", &cars.CarsController{}, "post:DoAdd")
 
-	// 角色模块
-	beego.Router("/main/role/list", &controllers.RoleController{}, "get:List")
-	beego.Router("/main/role/to_add", &controllers.RoleController{}, "get:ToAdd")
-	beego.Router("/main/role/do_add", &controllers.RoleController{}, "post:DoAdd")
-	// 角色--用户
-	beego.Router("/main/role/to_role_user_add", &controllers.RoleController{}, "get:ToRoleUser")
-	beego.Router("/main/role/do_role_user_add", &controllers.RoleController{}, "post:DoRoleUser")
+	beego.Router("/admin/cars/cars_apply_list", &cars.CarsApplyController{})
+	beego.Router("/admin/cars/to_apply", &cars.CarsApplyController{}, "get:ToApply")
+	beego.Router("/admin/cars/do_apply", &cars.CarsApplyController{}, "post:DoApply")
 
-	// 角色--权限
-	beego.Router("/main/role/to_role_auth_add", &controllers.RoleController{}, "get:ToRoleAuth")
-	beego.Router("/main/role/get_auth_json", &controllers.RoleController{}, "get:GetAuthJson")
-	beego.Router("/main/role/do_role_auth_add", &controllers.RoleController{}, "post:DoRoleAuth")
+	beego.Router("/admin/cars/my_apply_list", &cars.CarsApplyController{}, "get:MyApply")
+	beego.Router("/admin/cars/audit_apply_list", &cars.CarsApplyController{}, "get:AuditApply")
+	beego.Router("/admin/cars/to_audit_apply", &cars.CarsApplyController{}, "get:ToAuditApply")
+	beego.Router("/admin/cars/Do_audit_apply", &cars.CarsApplyController{}, "post:DoAuditApply")
+	beego.Router("/admin/cars/Do_return", &cars.CarsApplyController{}, "get:DoReturn")
 
-	// 个人中心
-	beego.Router("/main/user/my_center", &controllers.MyCenterController{})
-	beego.Router("/main/user/salary_slip", &controllers.SalarySlipController{})
-	beego.Router("/main/user/salary_slip_detail", &controllers.SalarySlipController{}, "get:Detail")
+	//报表管理
+	beego.Router("/admin/echarts/caiwu", &echarts.EchartsCaiwuController{})
+	beego.Router("/admin/echarts/get_caiwu_data", &echarts.EchartsCaiwuController{}, "get:GetCaiWuChart")
 
-	// 财务中心
-	beego.Router("/main/caiwu/salary_slip_list", &controllers.CaiWuSalarySlipController{})
-	beego.Router("/main/caiwu/to_salary_slip_import", &controllers.CaiWuSalarySlipController{}, "get:ToImportExcel")
-	beego.Router("/main/caiwu/do_salary_slip_import", &controllers.CaiWuSalarySlipController{}, "post:DoImportExcel")
+	beego.Router("/admin/echarts/course", &echarts.EchartsCourseController{})
+	beego.Router("/admin/echarts/get_course_data", &echarts.EchartsCourseController{}, "get:GetCourseChart")
 
-	beego.Router("/main/caiwu/echart_data_list", &controllers.CaiWuEchartDataController{})
-	beego.Router("/main/caiwu/to_echart_data_import", &controllers.CaiWuEchartDataController{}, "get:ToImportExcel")
-	beego.Router("/main/caiwu/do_echart_data_import", &controllers.CaiWuEchartDataController{}, "post:DoImportExcel")
-
-	// 内容管理
-	beego.Router("/main/news/category_list", &controllers.CategoryController{})
-	beego.Router("/main/news/to_add_category", &controllers.CategoryController{}, "get:ToAdd")
-	beego.Router("/main/news/do_add_category", &controllers.CategoryController{}, "post:DoAdd")
-
-	beego.Router("/main/news/news_list", &controllers.NewsController{})
-	beego.Router("/main/news/to_news_addt", &controllers.NewsController{}, "get:ToAdd")
-	beego.Router("/main/news/do_news_addt", &controllers.NewsController{}, "post:DoAdd")
-	beego.Router("/main/news/upload_img", &controllers.NewsController{}, "post:UploadImg")
-	beego.Router("/main/news/to_edit", &controllers.NewsController{}, "get:ToEdit")
-	beego.Router("/main/news/do_edit", &controllers.NewsController{}, "post:DoEdit")
-
-	// 车辆管理模块
-	beego.Router("/main/cars/car_brand_list", &controllers.CarBrandController{})
-	beego.Router("/main/cars/to_car_brand_add", &controllers.CarBrandController{}, "get:ToAdd")
-	beego.Router("/main/cars/do_car_brand_add", &controllers.CarBrandController{}, "post:DoAdd")
-
-	beego.Router("/main/cars/cars_list", &controllers.CarsController{})
-	beego.Router("/main/cars/to_cars_add", &controllers.CarsController{}, "get:ToAdd")
-	beego.Router("/main/cars/do_cars_add", &controllers.CarsController{}, "post:DoAdd")
-
-	beego.Router("/main/cars/cars_apply_list", &controllers.CarsApplyController{})
-	beego.Router("/main/cars/to_cars_apply", &ccontrollersars.CarsApplyController{}, "get:ToApply")
-	beego.Router("/main/cars/do_cars_apply", &controllers.CarsApplyController{}, "post:DoApply")
-	beego.Router("/main/cars/my_apply", &controllers.CarsApplyController{}, "get:MyApply")
-	beego.Router("/main/cars/audit_apply", &ccontrollersrs.CarsApplyController{}, "get:AuditApply")
-	beego.Router("/main/cars/to_audit_apply", &controllers.CarsApplyController{}, "get:ToAuditApply")
-	beego.Router("/main/cars/do_audit_apply", &controllers.CarsApplyController{}, "post:DoAuditApply")
-	beego.Router("/main/cars/do_return", &controllers.CarsApplyController{}, "get:DoReturn")
-
-	// 报表管理模块
-	beego.Router("/main/echarts/caiwu", &controllers.EchartsCaiwuController{})
-	beego.Router("/main/echarts/get_caiwu_data", &controllers.EchartsCaiwuController{}, "get:GetCaiWuChart")
-
-	beego.Router("/main/echarts/business", &controllers.EchartsBusinessController{})
-	beego.Router("/main/echarts/get_business_data", &controllers.EchartsBusinessController{}, "get:GetBusinessChart")
-
-	beego.Router("/main/echarts/course", &controllers.EchartsCourseController{})
-	beego.Router("/main/echarts/get_course_data", &controllers.EchartsCourseController{}, "get:GetCourseChart")
+	beego.Router("/admin/echarts/business", &echarts.EchartsBusinessController{})
+	beego.Router("/admin/echarts/get_business_data", &echarts.EchartsBusinessController{}, "get:GetBusinessChart")
 }

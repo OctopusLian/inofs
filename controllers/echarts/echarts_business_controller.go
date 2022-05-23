@@ -1,8 +1,8 @@
-package controllers
+package echarts
 
 import (
 	"github.com/astaxie/beego"
-	"github.com/beego/beego/orm"
+	"github.com/astaxie/beego/orm"
 )
 
 type EchartsBusinessController struct {

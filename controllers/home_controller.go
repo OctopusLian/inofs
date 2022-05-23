@@ -5,9 +5,9 @@ import (
 	"math"
 	"time"
 
-	"github.com/beego/beego"
-	"github.com/beego/beego/logs"
-	"github.com/beego/beego/orm"
+	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
+	"github.com/astaxie/beego/orm"
 
 	"inofs/models"
 	"inofs/utils"

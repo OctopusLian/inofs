@@ -1,28 +1,27 @@
-package controllers
+package news
 
 import (
 	"fmt"
-	"inofs/utils"
 	"inofs/models"
+	"inofs/utils"
 	"math"
 
 	"github.com/astaxie/beego"
-	"github.com/beego/beego/logs"
-	"github.com/beego/beego/orm"
+	"github.com/astaxie/beego/logs"
+	"github.com/astaxie/beego/orm"
 )
 
-type CarBrandController struct {
+type CategoryController struct {
 	beego.Controller
 }
 
-func (c *CarBrandController) Get() {
+func (c *CategoryController) Get() {
 
 	o := orm.NewOrm()
 
-	qs := o.QueryTable("sys_cars_brand")
+	qs := o.QueryTable("sys_category")
 
-	cars_brand := []models.CarBrand{}
-
+	categrories := []models.Category{}
 	// 每页显示的条数
 	pagePerNum := 8
 	// 当前页
@@ -34,6 +33,7 @@ func (c *CarBrandController) Get() {
 	offsetNum := pagePerNum * (currentPage - 1)
 
 	kw := c.GetString("kw")
+
 	var count int64 = 0
 
 	ret := fmt.Sprintf("当前页;%d,查询条件：%s", currentPage, kw)
@@ -41,10 +41,10 @@ func (c *CarBrandController) Get() {
 	if kw != "" { // 有查询条件的
 		// 总数
 		count, _ = qs.Filter("is_delete", 0).Filter("name__contains", kw).Count()
-		qs.Filter("is_delete", 0).Filter("name__contains", kw).Limit(pagePerNum).Offset(offsetNum).All(&cars_brand)
+		qs.Filter("is_delete", 0).Filter("name__contains", kw).Limit(pagePerNum).Offset(offsetNum).All(&categrories)
 	} else {
 		count, _ = qs.Filter("is_delete", 0).Count()
-		qs.Filter("is_delete", 0).Limit(pagePerNum).Offset(offsetNum).All(&cars_brand)
+		qs.Filter("is_delete", 0).Limit(pagePerNum).Offset(offsetNum).All(&categrories)
 
 	}
 
@@ -66,7 +66,8 @@ func (c *CarBrandController) Get() {
 	}
 
 	page_map := utils.Paginator(currentPage, pagePerNum, count)
-	c.Data["cars_brand"] = cars_brand
+
+	c.Data["categrories"] = categrories
 	c.Data["prePage"] = prePage
 	c.Data["nextPage"] = nextPage
 	c.Data["currentPage"] = currentPage
@@ -74,34 +75,35 @@ func (c *CarBrandController) Get() {
 	c.Data["count"] = count
 	c.Data["page_map"] = page_map
 	c.Data["kw"] = kw
-	c.TplName = "cars/cars_brand_list.html"
+
+	c.TplName = "news/category_list.html"
 
 }
 
-func (c *CarBrandController) ToAdd() {
-	c.TplName = "cars/cars_brand_add.html"
+func (c *CategoryController) ToAdd() {
+	c.TplName = "news/category_add.html"
 
 }
 
-func (c *CarBrandController) DoAdd() {
+func (c *CategoryController) DoAdd() {
 
 	name := c.GetString("name")
 	desc := c.GetString("desc")
 	is_active, _ := c.GetInt("is_active")
 
 	o := orm.NewOrm()
-	cars_brand := models.CarBrand{
+	category := models.Category{
 		Name:     name,
 		Desc:     desc,
 		IsActive: is_active,
 	}
-	_, err := o.Insert(&cars_brand)
+	_, err := o.Insert(&category)
 
 	message_map := map[string]interface{}{}
-
 	if err != nil {
 		message_map["code"] = 10001
-		message_map["msg"] = "添加失败"
+		message_map["msg"] = "添加栏目失败"
+
 	}
 
 	message_map["code"] = 200

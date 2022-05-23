@@ -6,8 +6,8 @@ import (
 	"inofs/utils"
 
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
-	"github.com/beego/beego/logs"
 )
 
 func init() {

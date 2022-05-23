@@ -1,6 +1,6 @@
 package models
 
-import "github.com/beego/beego/orm"
+import "github.com/astaxie/beego/orm"
 
 func init() {
 	orm.RegisterModel(

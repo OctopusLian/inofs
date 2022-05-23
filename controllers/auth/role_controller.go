@@ -1,14 +1,14 @@
-package controllers
+package auth
 
 import (
-	"inofs/utils"
 	"inofs/models"
+	"inofs/utils"
 	"math"
 	"strings"
 	"time"
 
 	"github.com/astaxie/beego"
-	"github.com/beego/beego/orm"
+	"github.com/astaxie/beego/orm"
 )
 
 type RoleController struct {

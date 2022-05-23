@@ -1,4 +1,4 @@
-package controllers
+package news
 
 import (
 	"fmt"
@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/astaxie/beego"
-	"github.com/beego/beego/logs"
-	"github.com/beego/beego/orm"
+	"github.com/astaxie/beego/logs"
+	"github.com/astaxie/beego/orm"
 )
 
 type NewsController struct {

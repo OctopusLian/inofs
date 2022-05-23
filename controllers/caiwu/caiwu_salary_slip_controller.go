@@ -1,4 +1,4 @@
-package controllers
+package caiwu
 
 import (
 	"inofs/models"
@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/astaxie/beego"
-	"github.com/beego/beego/logs"
-	"github.com/beego/beego/orm"
+	"github.com/astaxie/beego/logs"
+	"github.com/astaxie/beego/orm"
 	"github.com/xuri/excelize/v2"
 )
 

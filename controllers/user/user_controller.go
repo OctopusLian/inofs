@@ -1,4 +1,4 @@
-package controllers
+package user
 
 import (
 	"fmt"
@@ -8,9 +8,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/beego/beego"
-	"github.com/beego/beego/logs"
-	"github.com/beego/beego/orm"
+	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
+	"github.com/astaxie/beego/orm"
 )
 
 type UserController struct {
@@ -41,13 +41,13 @@ func (u *UserController) List() {
 	//qs.Filter("is_delete",0).Limit(pagePerNum).Offset(offsetNum).All(&users)
 	//
 	/*
-	分页逻辑：
-		当前第几页     offset     limit
-		1              0          2           2 *  （1 - 1）
-	   2              2          2			  2 *  （2 -1）
-		3              4		  2			  2 *  （3 -1）
-	
-											 limitNum * (currentPage - 1)
+		分页逻辑：
+			当前第几页     offset     limit
+			1              0          2           2 *  （1 - 1）
+		   2              2          2			  2 *  （2 -1）
+			3              4		  2			  2 *  （3 -1）
+
+												 limitNum * (currentPage - 1)
 	*/
 	//prePage := 1
 	//if currentPage == 1{

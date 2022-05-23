@@ -1,4 +1,4 @@
-package controllers
+package user
 
 import (
 	"inofs/models"
@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/astaxie/beego"
-	"github.com/beego/beego/orm"
+	"github.com/astaxie/beego/orm"
 )
 
 type MyCenterController struct {

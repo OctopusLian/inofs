@@ -8,17 +8,24 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
+	_ "github.com/go-sql-driver/mysql"
+	_ "inofs/models"
 )
 
 func init() {
 	username := beego.AppConfig.String("username")
+	fmt.Println("username:",username)
 	pwd := beego.AppConfig.String("pwd")
+	fmt.Println("pwd:",pwd)
 	host := beego.AppConfig.String("host")
+	fmt.Println("host:",host)
 	port := beego.AppConfig.String("port")
+	fmt.Println("port:",port)
 	db := beego.AppConfig.String("db")
+	fmt.Println("db:",db)
 
 	// username:pwd@tcp(ip:port)/db?charset=utf8&loc=Local
-	dataSource := username + ":" + pwd + "@tcp(" + host + ":" + port + ")/" + db + "?charset=utf8&loc=Local"
+	dataSource := username + ":" + pwd + "@tcp(" + host + ":" + port + ")/" + db + "?charset=utf8"
 	orm.RegisterDriver("mysql", orm.DRMySQL)
 	orm.RegisterDataBase("default", "mysql", dataSource)
 

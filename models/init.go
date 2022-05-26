@@ -7,7 +7,6 @@ func init() {
 		new(User),
 		new(Auth),
 		new(Role),
-		new(User),
 		new(CarBrand),
 		new(Cars),
 		new(CarsApply),

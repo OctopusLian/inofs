@@ -1,3 +1,10 @@
+/*
+ * @Description:
+ * @Author: neozhang
+ * @Date: 2022-05-23 21:43:13
+ * @LastEditors: neozhang
+ * @LastEditTime: 2022-05-23 21:48:01
+ */
 package models
 
 import "github.com/astaxie/beego/orm"

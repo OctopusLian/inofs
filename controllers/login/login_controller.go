@@ -1,3 +1,10 @@
+/*
+ * @Description:
+ * @Author: neozhang
+ * @Date: 2022-05-23 21:43:13
+ * @LastEditors: neozhang
+ * @LastEditTime: 2022-05-23 23:09:00
+ */
 package login
 
 import (
@@ -24,7 +31,6 @@ func (l *LoginController) Get() {
 
 	l.Data["captcha"] = utils.Captcha{Id: id, BS64: base64}
 	l.TplName = "login/login.html"
-
 }
 
 func (l *LoginController) Post() {
